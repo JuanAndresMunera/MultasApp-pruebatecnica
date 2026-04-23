@@ -23,58 +23,53 @@ Tras intentar replicar este flujo de forma programática con librerías de petic
 ## 🚀 Guía de Ejecución Paso a Paso
 
 ### 1. Configuración de la Base de Datos (PostgreSQL)
-La persistencia es un requerimiento crítico del Módulo 4.
-1.  Cree una base de datos en PostgreSQL (ej. `multas_db`).
-2.  Ejecute el script de migración ubicado en: `/backend/db/schema.sql`.
-    * *Nota: Este script levanta la estructura de tablas y los índices necesarios para el rendimiento de las consultas.*
-3.  Configure sus credenciales en el archivo `.env`.
-
-### 2. Preparación del Entorno Backend
-Sitúese en la carpeta raíz del proyecto y ejecute:
 ```bash
-# Crear y activar entorno virtual
-python -m venv venv
-.\venv\Scripts\activate  # Windows
+# 1. Cree una base de datos en PostgreSQL (ej. multas_db).
+# 2. Ejecute el script de migración para levantar la estructura de tablas e índices:
+psql -U tu_usuario -d multas_db -f backend/db/schema.sql
 
-# Instalar dependencias y binarios de Playwright
+# 3. Configure sus credenciales de acceso (DB_USER, DB_PASSWORD, etc.) en el archivo .env
+
+# Sitúese en la carpeta raíz del proyecto.
+# Ejecute los siguientes comandos para configurar el entorno virtual e instalar dependencias:
+
+# Crear entorno virtual
+python -m venv venv
+
+# Activar entorno virtual (Windows)
+.\venv\Scripts\activate
+
+# Instalar librerías y binarios de Playwright
 pip install -r requirements.txt
 playwright install chromium
 
-3. Ejecución del Servidor
-Inicie la API REST con el siguiente comando:
+# Inicie la API REST con el siguiente comando para habilitar el servicio y la documentación automática:
 
+# Ejecutar el servidor con recarga automática
 uvicorn main:app --reload
 
-- La API estará disponible en: http://127.0.0.1:8000
+# La API estará disponible en: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+# Documentación interactiva (Swagger): [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
-- Documentación interactiva (Swagger): http://127.0.0.1:8000/docs
+# Para una experiencia de usuario completa y visualización del histórico:
 
-4. Lanzamiento del Frontend:
+# 1. Abra la carpeta del proyecto en Visual Studio Code.
+# 2. Localice el archivo frontend/index.html.
+# 3. Haga clic derecho y seleccione "Open with Live Server".
+# 4. Esto permite interactuar con el formulario y visualizar resultados en tiempo real.
 
-- Para una experiencia de usuario completa:
+## 🛠️ Reglas de Negocio e Integridad
+#Validación Estricta: Se implementaron validaciones de formato de placa antes de cualquier procesamiento externo.
 
-- Abra la carpeta del proyecto en Visual Studio Code.
+#Trazabilidad de Consultas: Toda solicitud (individual o masiva) se registra en la base de datos, incluyendo la respuesta cruda en JSON para futuras auditorías.
 
-- Localice el archivo frontend/index.html.
+#Concurrencia y Resiliencia: En consultas masivas, el sistema utiliza ThreadPoolExecutor, asegurando que el fallo en una placa individual no afecte la ejecución del lote completo.
 
-- Haga clic derecho y seleccione "Open with Live Server".
+#Manejo de Errores: Respuestas controladas ante indisponibilidad de la fuente externa o tiempos de espera agotados.
 
-- Esto permite interactuar con el formulario de consulta y visualizar el histórico en tiempo real.
+## 📈 Limitaciones y Mejoras Futuras
+#Escalabilidad: Implementar Celery con Redis para mover las consultas masivas a tareas de fondo, liberando el hilo principal de la API.
 
-🛠️ Reglas de Negocio e Integridad:
+#Seguridad: Integrar rotación de proxies y agentes de usuario para mitigar bloqueos por alta demanda.
 
-- Validación Estricta: Se implementaron validaciones de formato de placa antes de cualquier procesamiento externo.
-
-- Trazabilidad de Consultas: Toda solicitud (individual o masiva) se registra en la base de datos, incluyendo la respuesta cruda en JSON para futuras auditorías.
-
-- Concurrencia y Resiliencia: En consultas masivas, el sistema utiliza ThreadPoolExecutor, asegurando que el fallo en una placa individual no afecte la ejecución del lote completo.
-
-- Manejo de Errores: Respuestas controladas ante indisponibilidad de la fuente externa o tiempos de espera agotados.
-
-📈 Limitaciones y Mejoras Futuras:
-
-- Escalabilidad: Implementar Celery con Redis para mover las consultas masivas a tareas de fondo, liberando el hilo principal de la API.
-
-- Seguridad: Integrar rotación de proxies y agentes de usuario para mitigar bloqueos por alta demanda.
-
-- Caché: Añadir una capa de caché para evitar consultas redundantes a la fuente externa en periodos cortos de tiempo.
+#Caché: Añadir una capa de caché (Redis) para evitar consultas redundantes a la fuente externa en periodos cortos de tiempo.
