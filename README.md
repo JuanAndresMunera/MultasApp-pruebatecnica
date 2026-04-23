@@ -1,75 +1,566 @@
 # 🚦 Sistema de Consulta Automatizada SIMIT - Analista N2
 
-Solución técnica integral para la extracción, procesamiento y persistencia de comparendos vehiculares, desarrollada bajo estándares de arquitectura limpia y automatización avanzada sin dependencias de herramientas RPA tradicionales.
+## 📌 Descripción General
+
+Solución técnica integral para la **extracción, procesamiento, consulta y persistencia de comparendos vehiculares en SIMIT**, desarrollada bajo principios de arquitectura limpia y automatización programática, **sin uso de herramientas RPA tradicionales**, cumpliendo las restricciones técnicas planteadas.
+
+La solución implementa:
+
+* Backend API con **FastAPI**
+* Automatización web encapsulada con **Playwright**
+* Persistencia con **PostgreSQL** y **SQLAlchemy**
+* Frontend liviano en **HTML, CSS y JavaScript**
+* Auditoría histórica de consultas
+* Consulta individual y masiva de placas
 
 ---
 
-## 🏗️ Arquitectura de la Solución
+# 🏗️ Arquitectura de la Solución
 
-El proyecto implementa una **arquitectura por capas** que separa la lógica de exposición (API), la lógica de negocio (Automatización) y la persistencia (Base de Datos):
+La solución sigue una **arquitectura por capas**, separando responsabilidades:
 
-* **Backend:** Desarrollado con **FastAPI**, aprovechando la programación asíncrona para optimizar el rendimiento de las peticiones.
-* **Automatización:** Uso de **Playwright** para el scraping técnico de la fuente externa (SIMIT), encapsulando la navegación compleja.
-* **Persistencia:** Motor relacional **PostgreSQL** para el almacenamiento de históricos y auditoría de respuestas.
-* **Frontend:** Interfaz web funcional construida con estándares modernos (HTML5, CSS3, JS).
+## Capa de Exposición (API)
 
-### 🧠 Bitácora de Ingeniería: El Desafío de la API Interna
-Durante la fase de investigación, realicé una ingeniería inversa del portal SIMIT mediante las herramientas de desarrollo (*DevTools*). Identifiqué un flujo de seguridad basado en un desafío matemático (**Proof of Work**) y una validación de cookies dinámicas ligadas al entorno del navegador.
+* API REST construida con **FastAPI**
+* Endpoints para:
 
-Tras intentar replicar este flujo de forma programática con librerías de peticiones crudas (`httpx`), se detectó que el sistema emplea mecanismos de *fingerprinting* que comprometían la estabilidad de la solución. Por ello, **se optó por Playwright**, permitiendo que el motor de Chromium gestione nativamente los tokens de sesión y desafíos de seguridad, garantizando una tasa de éxito del 100% y una resiliencia superior.
+  * Consulta individual
+  * Consulta masiva
+  * Histórico de consultas
+* Validaciones de entrada con **Pydantic**
+* Documentación interactiva con Swagger
 
 ---
 
-## 🚀 Guía de Ejecución Paso a Paso
+## Capa de Automatización
 
-### 1. Configuración de la Base de Datos (PostgreSQL)
+Se utiliza **Playwright** como mecanismo técnico encapsulado para interactuar con la fuente externa (SIMIT).
+
+Características:
+
+* Intercepción de respuestas HTTP internas
+* Bloqueo de recursos no necesarios para optimización
+* Captura estructurada de datos
+* Manejo de errores y timeouts
+* Estrategia resiliente frente a mecanismos anti-bot
+
+---
+
+## Capa de Persistencia
+
+Base de datos relacional con **PostgreSQL** para:
+
+* Histórico de consultas
+* Auditoría de respuestas crudas
+* Registro de errores
+* Trazabilidad operativa
+
+ORM:
+
+* **SQLAlchemy**
+
+---
+
+## Capa Frontend
+
+Interfaz web ligera para:
+
+* Consultar placas individuales
+* Ejecutar consultas masivas
+* Visualizar histórico
+
+Tecnologías:
+
+* HTML5
+* CSS3
+* JavaScript Vanilla
+
+---
+
+# 🧠 Bitácora de Ingeniería: Decisión Técnica sobre la Fuente Externa
+
+Durante la investigación técnica se realizó ingeniería inversa del portal **SIMIT** usando herramientas DevTools.
+
+Se identificó:
+
+* Flujo con desafío matemático (**Proof of Work**)
+* Cookies dinámicas ligadas al navegador
+* Mecanismos de fingerprinting
+* Validaciones de sesión que impedían consumo estable vía requests crudos
+
+Inicialmente se intentó replicar el flujo con:
+
+* `httpx`
+* Consumo directo HTTP
+
+Resultado:
+
+* Baja estabilidad
+* Tokens dinámicos inválidos
+* Riesgo de bloqueo
+
+## Decisión adoptada
+
+Se optó por **Playwright + Chromium** para que el motor del navegador gestione:
+
+* Sesiones
+* Tokens
+* Cookies
+* Desafíos de seguridad
+
+Esto permitió:
+
+* Alta resiliencia
+* Estabilidad operativa
+* Automatización encapsulada sin RPA
+
+---
+
+# 📂 Estructura del Proyecto
+
 ```bash
-# 1. Cree una base de datos en PostgreSQL (ej. multas_db).
-# 2. Ejecute el script de migración para levantar la estructura de tablas e índices:
-psql -U tu_usuario -d multas_db -f backend/db/schema.sql
+project/
+│
+├── backend/
+│   ├── main.py
+│   ├── scraper.py
+│   ├── externalRequest.py
+│   ├── database.py
+│   ├── models.py
+│   └── db/
+│       └── schema.sql
+│
+├── frontend/
+│   └── index.html
+│
+├── postman/
+├── .env
+├── requirements.txt
+└── README.md
+```
 
-# 3. Configure sus credenciales de acceso (DB_USER, DB_PASSWORD, etc.) en el archivo .env
+---
 
-# Sitúese en la carpeta raíz del proyecto.
-# Ejecute los siguientes comandos para configurar el entorno virtual e instalar dependencias:
+# 🚀 Guía de Ejecución Paso a Paso
 
-# Crear entorno virtual
+## 1. Clonar el proyecto
+
+```bash
+git clone <repositorio>
+cd <nombre-proyecto>
+```
+
+---
+
+## 2. Configuración de Base de Datos (PostgreSQL)
+
+Crear base de datos:
+
+```sql
+CREATE DATABASE multas_db;
+```
+
+Ejecutar script de esquema:
+
+```bash
+backend/db/schema.sql
+```
+
+Este script crea:
+
+* Tabla de consultas
+* Índices
+* Estructura para auditoría
+
+---
+
+## 3. Configuración de variables de entorno
+
+Crear archivo `.env`
+
+```bash
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=multas_db
+DB_USER=postgres
+DB_PASSWORD=tu_password
+```
+
+---
+
+## 4. Preparar entorno virtual
+
+```bash
 python -m venv venv
+```
 
-# Activar entorno virtual (Windows)
-.\venv\Scripts\activate
+Activar entorno:
 
-# Instalar librerías y binarios de Playwright
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+### Linux / Mac
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+## 5. Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+Instalar navegador para Playwright:
+
+```bash
+playwright install chromium
+```
+
+---
+
+## 6. Levantar el Backend
+
+Ubicarse en `/backend`
+
+```bash
+uvicorn main:app --reload
+```
+
+Servidor:
+
+```bash
+http://127.0.0.1:8000
+```
+
+Swagger:
+
+```bash
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## 7. Ejecutar Frontend
+
+Abrir el proyecto en Visual Studio Code.
+
+Ir a:
+
+```bash
+frontend/index.html
+```
+
+Ejecutar con:
+
+```bash
+Open with Live Server
+```
+
+---
+
+# 🔌 Endpoints Disponibles
+
+## Health Check
+
+```http
+GET /
+```
+
+Respuesta:
+
+```json
+{
+  "mensaje":"API Consulta Multas SIMIT activa"
+}
+```
+
+---
+
+## Consulta Individual
+
+```http
+POST /consulta-individual
+```
+
+Payload:
+
+```json
+{
+  "placa":"ABC123"
+}
+```
+
+---
+
+## Consulta Masiva
+
+```http
+POST /consulta-masiva
+```
+
+Payload:
+
+```json
+{
+  "placas":[
+    "ABC123",
+    "XYZ987"
+  ]
+}
+```
+
+---
+
+## Histórico
+
+```http
+GET /historico
+```
+
+---
+
+# 🛠️ Reglas de Negocio e Integridad
+
+## Validación estricta
+
+Formato soportado:
+
+```bash
+ABC123
+```
+
+Se rechazan placas inválidas antes de consultar fuente externa.
+
+---
+
+## Trazabilidad
+
+Cada consulta almacena:
+
+* Placa
+* Fecha
+* Estado
+* Cantidad de multas
+* Respuesta cruda JSON
+* Error si existe
+
+---
+
+## Resiliencia
+
+* Fallo de una placa no rompe consulta masiva
+* Manejo de timeouts
+* Respuestas controladas ante caída de la fuente
+* Aislamiento por consulta
+
+---
+
+## Optimización implementada
+
+Bloqueo de recursos no esenciales:
+
+```bash
+Imágenes
+Fonts
+Media
+Analytics
+Trackers
+```
+
+Intercepción del endpoint interno en vez de scraping visual tradicional.
+
+---
+
+# ⚙️ Stack Tecnológico
+
+## Backend
+
+```bash
+Python
+FastAPI
+SQLAlchemy
+Pydantic
+Playwright
+```
+
+## Base de Datos
+
+```bash
+PostgreSQL
+```
+
+## Frontend
+
+```bash
+HTML5
+CSS3
+JavaScript
+```
+
+---
+
+# 🔒 Cumplimiento de Restricciones Técnicas
+
+La solución cumple la restricción principal:
+
+## No utiliza
+
+```bash
+UiPath
+Automation Anywhere
+Power Automate Desktop
+Selenium como robot RPA
+Macros tipo click-bot
+```
+
+## Sí utiliza (permitido)
+
+```bash
+Backend consumiendo servicios HTTP
+Control web encapsulado técnicamente
+APIs REST
+Automatización con Python
+Base de datos relacional
+Frontend liviano
+```
+
+La automatización con Playwright se utiliza como:
+
+* Encapsulamiento técnico
+* Intercepción de tráfico
+* Cliente de automatización programática
+
+No como herramienta RPA.
+
+---
+
+# 📊 Modelo de Datos
+
+Tabla principal:
+
+```sql
+consultas
+```
+
+Campos:
+
+```bash
+id_consulta
+placa
+fecha_consulta
+tipo_consulta
+estado
+respuesta_cruda
+cantidad_multas
+mensaje_error
+```
+
+---
+
+# 🧪 Pruebas
+
+Colección de pruebas:
+
+```bash
+/postman
+```
+
+Incluye:
+
+* Consulta individual
+* Consulta masiva
+* Casos de error
+* Validaciones
+
+---
+
+# 📈 Limitaciones y Mejoras Futuras
+
+## 1. Escalabilidad
+
+Implementar:
+
+```bash
+Celery + Redis
+```
+
+Para mover consultas masivas a tareas en background.
+
+---
+
+## 2. Seguridad
+
+Agregar:
+
+```bash
+Rotación de proxies
+User agents dinámicos
+Rate limiting
+```
+
+---
+
+## 3. Caché
+
+Posible integración:
+
+```bash
+Redis Cache
+```
+
+Evitar consultas repetidas en ventanas cortas.
+
+---
+
+## 4. Mejoras arquitectónicas futuras
+
+```bash
+Docker Compose
+Alembic migrations
+Observabilidad y logging estructurado
+Procesamiento concurrente distribuido
+```
+
+---
+
+# ▶️ Ejecución Rápida
+
+```bash
+git clone <repo>
+cd proyecto
+python -m venv venv
+venv\Scripts\activate
 pip install -r requirements.txt
 playwright install chromium
-
-# Inicie la API REST con el siguiente comando para habilitar el servicio y la documentación automática:
-
-# Ejecutar el servidor con recarga automática
 uvicorn main:app --reload
+```
 
-# La API estará disponible en: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-# Documentación interactiva (Swagger): [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+Abrir:
 
-# Para una experiencia de usuario completa y visualización del histórico:
+```bash
+http://127.0.0.1:8000/docs
+```
 
-# 1. Abra la carpeta del proyecto en Visual Studio Code.
-# 2. Localice el archivo frontend/index.html.
-# 3. Haga clic derecho y seleccione "Open with Live Server".
-# 4. Esto permite interactuar con el formulario y visualizar resultados en tiempo real.
+---
 
-## 🛠️ Reglas de Negocio e Integridad
-#Validación Estricta: Se implementaron validaciones de formato de placa antes de cualquier procesamiento externo.
+# 👨‍💻 Autor
 
-#Trazabilidad de Consultas: Toda solicitud (individual o masiva) se registra en la base de datos, incluyendo la respuesta cruda en JSON para futuras auditorías.
+Proyecto desarrollado como solución técnica para prueba de **Analista N2**, enfocado en:
 
-#Concurrencia y Resiliencia: En consultas masivas, el sistema utiliza ThreadPoolExecutor, asegurando que el fallo en una placa individual no afecte la ejecución del lote completo.
+* Automatización sin RPA
+* Integración de servicios
+* Persistencia y trazabilidad
+* Diseño modular
+* Buenas prácticas de ingeniería
 
-#Manejo de Errores: Respuestas controladas ante indisponibilidad de la fuente externa o tiempos de espera agotados.
+---
 
-## 📈 Limitaciones y Mejoras Futuras
-#Escalabilidad: Implementar Celery con Redis para mover las consultas masivas a tareas de fondo, liberando el hilo principal de la API.
+# 📄 Licencia
 
-#Seguridad: Integrar rotación de proxies y agentes de usuario para mitigar bloqueos por alta demanda.
-
-#Caché: Añadir una capa de caché (Redis) para evitar consultas redundantes a la fuente externa en periodos cortos de tiempo.
+Uso académico / prueba técnica.
