@@ -264,7 +264,7 @@ Open with Live Server
 
 ---
 
-# 🔌 Endpoints Disponibles
+#  Endpoints Disponibles
 
 ## Health Check
 
@@ -549,7 +549,7 @@ http://127.0.0.1:8000/docs
 
 ---
 
-# 👨‍💻 Autor
+#  Autor
 
 Proyecto desarrollado como solución técnica para prueba de **Analista N2**, enfocado en:
 
