@@ -11,7 +11,7 @@ import logging
 
 from database import engine, get_db, Base, SessionLocal  # ← añadimos SessionLocal
 from models import Consulta
-from externalRequest import consultar_simit
+from scrapy import consultar_simit
 
 Base.metadata.create_all(bind=engine)
 
