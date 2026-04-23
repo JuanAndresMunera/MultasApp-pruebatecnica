@@ -1,6 +1,6 @@
-# 🚦 Sistema de Consulta Automatizada SIMIT - Analista N2
+# Sistema de Consulta Automatizada SIMIT - Analista N2
 
-## 📌 Descripción General
+##  Descripción General
 
 Solución técnica integral para la **extracción, procesamiento, consulta y persistencia de comparendos vehiculares en SIMIT**, desarrollada bajo principios de arquitectura limpia y automatización programática, **sin uso de herramientas RPA tradicionales**, cumpliendo las restricciones técnicas planteadas.
 
@@ -15,7 +15,7 @@ La solución implementa:
 
 ---
 
-# 🏗️ Arquitectura de la Solución
+# Arquitectura de la Solución
 
 La solución sigue una **arquitectura por capas**, separando responsabilidades:
 
@@ -77,7 +77,7 @@ Tecnologías:
 
 ---
 
-# 🧠 Bitácora de Ingeniería: Decisión Técnica sobre la Fuente Externa
+#  Bitácora de Ingeniería: Decisión Técnica sobre la Fuente Externa
 
 Durante la investigación técnica se realizó ingeniería inversa del portal **SIMIT** usando herramientas DevTools.
 
@@ -116,7 +116,7 @@ Esto permitió:
 
 ---
 
-# 📂 Estructura del Proyecto
+#  Estructura del Proyecto
 
 ```bash
 project/
@@ -141,7 +141,7 @@ project/
 
 ---
 
-# 🚀 Guía de Ejecución Paso a Paso
+#  Guía de Ejecución Paso a Paso
 
 ## 1. Clonar el proyecto
 
@@ -325,7 +325,7 @@ GET /historico
 
 ---
 
-# 🛠️ Reglas de Negocio e Integridad
+#  Reglas de Negocio e Integridad
 
 ## Validación estricta
 
@@ -377,7 +377,7 @@ Intercepción del endpoint interno en vez de scraping visual tradicional.
 
 ---
 
-# ⚙️ Stack Tecnológico
+#  Stack Tecnológico
 
 ## Backend
 
@@ -405,7 +405,7 @@ JavaScript
 
 ---
 
-# 🔒 Cumplimiento de Restricciones Técnicas
+# Cumplimiento de Restricciones Técnicas
 
 La solución cumple la restricción principal:
 
@@ -440,7 +440,7 @@ No como herramienta RPA.
 
 ---
 
-# 📊 Modelo de Datos
+# Modelo de Datos
 
 Tabla principal:
 
@@ -463,7 +463,7 @@ mensaje_error
 
 ---
 
-# 🧪 Pruebas
+# Pruebas
 
 Colección de pruebas:
 
@@ -480,7 +480,7 @@ Incluye:
 
 ---
 
-# 📈 Limitaciones y Mejoras Futuras
+# Limitaciones y Mejoras Futuras
 
 ## 1. Escalabilidad
 
@@ -529,7 +529,7 @@ Procesamiento concurrente distribuido
 
 ---
 
-# ▶️ Ejecución Rápida
+# Ejecución Rápida
 
 ```bash
 git clone <repo>
