@@ -559,8 +559,4 @@ Proyecto desarrollado como solución técnica para prueba de **Analista N2**, en
 * Diseño modular
 * Buenas prácticas de ingeniería
 
----
 
-# 📄 Licencia
-
-Uso académico / prueba técnica.
