@@ -1,0 +1,117 @@
+{
+  "info": {
+    "_postman_id": "4dc910c9-18c3-4075-a77f-20d0d92aee66",
+    "name": "SIMIT_API_N2",
+    "description": "Colección para la prueba técnica de Analista Automatizador N2. Incluye consulta individual, masiva e histórico.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31159414"
+  },
+  "item": [
+    {
+      "name": "Consulta Individual",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"placa\": \"ABC123\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/consulta-individual",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "consulta-individual"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Consulta Masiva",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"placas\": [\"ABC123\", \"XYZ987\", \"LMN456\"]\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/consulta-masiva",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "consulta-masiva"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener Histórico",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/historico",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "historico"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
